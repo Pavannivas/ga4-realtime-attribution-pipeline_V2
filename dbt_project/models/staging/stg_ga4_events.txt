@@ -1,0 +1,13 @@
+-- Drop if exists
+DROP TABLE IF EXISTS stg_ga4_events;
+
+-- Create staging table
+CREATE TABLE stg_ga4_events AS
+SELECT
+    event_date::VARCHAR,
+    event_timestamp::BIGINT,
+    event_name::VARCHAR,
+    user_pseudo_id::VARCHAR,
+    source::VARCHAR,
+    medium::VARCHAR
+FROM ga4_events;

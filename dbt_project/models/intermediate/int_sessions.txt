@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS int_sessions;
+
+CREATE TABLE int_sessions AS
+SELECT
+    user_pseudo_id,
+    event_date,
+    MIN(event_timestamp) AS session_start,
+    MAX(event_timestamp) AS session_end,
+    COUNT(*) AS events_in_session
+FROM stg_ga4_events
+GROUP BY user_pseudo_id, event_date;

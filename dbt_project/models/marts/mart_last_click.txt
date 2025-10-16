@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS mart_last_click;
+
+CREATE TABLE mart_last_click AS
+WITH ranked AS (
+    SELECT
+        user_pseudo_id,
+        source AS channel,
+        event_timestamp,
+        ROW_NUMBER() OVER (PARTITION BY user_pseudo_id ORDER BY event_timestamp DESC) AS rn
+    FROM stg_ga4_events
+)
+SELECT
+    user_pseudo_id,
+    channel,
+    event_timestamp AS last_click_timestamp
+FROM ranked
+WHERE rn = 1;
